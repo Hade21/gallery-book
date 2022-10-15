@@ -6,7 +6,10 @@ import { useNavigate } from "react-router-dom";
 import { BiSearchAlt, BiCategoryAlt, BiMenu } from "react-icons/bi";
 import { MdLogout, MdOutlineClose } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
-import { setSearchQuery } from "../../../app/features/booksSlice/booksSlice";
+import {
+  setSearchQuery,
+  setSelectedCategory,
+} from "../../../app/features/booksSlice/booksSlice";
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -15,7 +18,10 @@ const Header = () => {
   const [cookies, setCookies, removeCookies] = useCookies(["uid", "token"]);
 
   const search = useSelector((state) => state.books.searchQuery);
+  const categories = useSelector((state) => state.books.categories);
+  const selectedCategory = useSelector((state) => state.books.selectedCategory);
 
+  console.log(categories);
   const handleLogout = async () => {
     const signOut = await logout();
     if (signOut) {
@@ -84,12 +90,17 @@ const Header = () => {
             name="category"
             id="category"
             className="p-2 rounded bg-pink-800 hover:bg-purple-800 transition-all duration-300 cursor-pointer"
+            value={selectedCategory}
+            onChange={(e) => dispatch(setSelectedCategory(e.target.value))}
           >
-            <option value="Education">Education</option>
-            <option value="Computers">Computers</option>
-            <option value="Fiction">Fiction</option>
-            <option value="Horror">Horror</option>
-            <option value="Science">Science</option>
+            <option value=""></option>
+            {categories.map((category, index) => {
+              return (
+                <option key={index} value={category}>
+                  {category}
+                </option>
+              );
+            })}
           </select>
         )}
       </div>

@@ -20,31 +20,42 @@ const ListBook = () => {
       });
       dispatch(setShowedBooks(filteredBooks));
     } else if (selectedCategory) {
-      const filteredBooks = books.filter((book) => {
-        return book.volumeInfo.categories.includes(selectedCategory);
-      });
+      const filteredBooks = books
+        .filter((book) => {
+          return book.volumeInfo.categories;
+        })
+        .filter((book) => {
+          return book.volumeInfo.categories.includes(selectedCategory);
+        });
       dispatch(setShowedBooks(filteredBooks));
-    } else {
-      dispatch(setShowedBooks(books));
     }
   }, [searchQuery, selectedCategory]);
+  useEffect(() => {
+    dispatch(setShowedBooks(books));
+  }, [books]);
 
   console.log(showedBooks);
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3">
-      {showedBooks.map((book, i) => {
-        return (
-          <CardBook
-            title={book.volumeInfo.title}
-            author={book.volumeInfo.authors[0]}
-            publishDate={book.volumeInfo.publishedDate}
-            thumbnail={book.volumeInfo.imageLinks.smallThumbnail}
-            key={i}
-            link={book.selfLink}
-          />
-        );
-      })}
+      {showedBooks.length > 1 ? (
+        showedBooks.map((book, i) => {
+          return (
+            <CardBook
+              title={book.volumeInfo.title}
+              author={book.volumeInfo.authors[0]}
+              publishDate={book.volumeInfo.publishedDate}
+              thumbnail={book.volumeInfo.imageLinks.smallThumbnail}
+              key={i}
+              link={book.selfLink}
+            />
+          );
+        })
+      ) : (
+        <p className="font-poppins text-3xl font-medium text-white col-span-full items-center justify-center">
+          No Books in List
+        </p>
+      )}
     </div>
   );
 };

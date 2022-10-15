@@ -2,7 +2,10 @@ import React, { useEffect } from "react";
 import axios from "../../config/api/axios";
 import { Header, ListBook } from "../../components";
 import { useDispatch, useSelector } from "react-redux";
-import { setBooks } from "../../app/features/booksSlice/booksSlice";
+import {
+  setBooks,
+  setCategories,
+} from "../../app/features/booksSlice/booksSlice";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -18,10 +21,13 @@ const Home = () => {
           books.map((book) => {
             if (book.volumeInfo.categories) {
               book.volumeInfo.categories.map((category) => {
-                categories.push(category);
+                if (!categories.includes(category)) {
+                  categories.push(category);
+                }
               });
             }
           });
+          dispatch(setCategories(categories));
         }
       }
     }
