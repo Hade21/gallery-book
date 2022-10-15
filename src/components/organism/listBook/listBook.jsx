@@ -34,11 +34,9 @@ const ListBook = () => {
     dispatch(setShowedBooks(books));
   }, [books]);
 
-  console.log(showedBooks);
-
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3">
-      {showedBooks.length > 1 ? (
+      {showedBooks.length > 0 ? (
         showedBooks.map((book, i) => {
           return (
             <CardBook
@@ -47,7 +45,7 @@ const ListBook = () => {
               publishDate={book.volumeInfo.publishedDate}
               thumbnail={book.volumeInfo.imageLinks.smallThumbnail}
               key={i}
-              link={book.selfLink}
+              id={book.id}
             />
           );
         })

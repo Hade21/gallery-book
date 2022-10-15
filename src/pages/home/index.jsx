@@ -6,9 +6,14 @@ import {
   setBooks,
   setCategories,
 } from "../../app/features/booksSlice/booksSlice";
+import { useNavigate } from "react-router-dom";
+import { useAuthState } from "react-firebase-hooks/auth";
+import auth from "../../../firebase";
 
 const Home = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [user, isLoading] = useAuthState(auth);
 
   useEffect(() => {
     async function getData() {
@@ -32,6 +37,13 @@ const Home = () => {
       }
     }
     getData();
+  }, []);
+  useEffect(() => {
+    if (isLoading) {
+      return;
+    } else if (!user) {
+      navigate("/login");
+    }
   }, []);
   return (
     <div className="flex">

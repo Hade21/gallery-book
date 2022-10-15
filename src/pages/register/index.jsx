@@ -51,7 +51,7 @@ const Register = () => {
     dispatch(validateMatch());
   }, [password]);
   useEffect(() => {
-    setErrMsg("");
+    dispatch(setErrMsg(""));
   }, [email, password, matchPwd]);
   useEffect(() => {
     if (isLoading) {
@@ -75,12 +75,7 @@ const Register = () => {
       setCookies("uid", uid, { path: "/" });
       setCookies("token", accessToken, { path: "/" });
     } catch (error) {
-      if (!error?.response) {
-        dispatch(setErrMsg("No server response"));
-      } else {
-        console.log(error);
-      }
-      errRef.current.focus();
+      console.log(error);
     }
   };
 
@@ -91,7 +86,7 @@ const Register = () => {
           ref={errRef}
           className={
             errMsg
-              ? "text-base font-commisioner text-center bg-red-500 rounded-lg font-bold px-4 py-2 transition-all duration-300"
+              ? "text-base font-commisioner text-center bg-red-500 rounded-lg font-bold px-4 py-2 transition-all duration-300 flex items-center justify-around mb-6"
               : "fixed -top-[1024px] transition-all duration-300"
           }
           aria-live="assertive"

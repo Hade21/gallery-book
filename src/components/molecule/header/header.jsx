@@ -21,15 +21,10 @@ const Header = () => {
   const categories = useSelector((state) => state.books.categories);
   const selectedCategory = useSelector((state) => state.books.selectedCategory);
 
-  console.log(categories);
   const handleLogout = async () => {
-    const signOut = await logout();
-    if (signOut) {
-      removeCookies(["uid", "token"]);
-      navigate("/login");
-    } else {
-      console.log(signOut);
-    }
+    const user = await logout();
+    removeCookies(["uid", "token"]);
+    navigate("/login");
   };
   return (
     <header className="flex justify-start gap-10 px-4 py-8 flex-col h-screen bg-gradient-to-b from-purple-900 to-pink-900 text-white border-r-2 border-r-slate-500">

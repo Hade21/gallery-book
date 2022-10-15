@@ -1,5 +1,6 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
+import Detail from "../pages/detail/detail";
 import Home from "../pages/home";
 import Login from "../pages/login";
 import Register from "../pages/register";
@@ -10,6 +11,7 @@ const Routing = () => {
       <Route path="/" element={<Home />} />
       <Route path="/register" element={<Register />} />
       <Route path="/login" element={<Login />} />
+      <Route path="/detail/:id" element={<Detail />} />
       <Route
         path="*"
         element={

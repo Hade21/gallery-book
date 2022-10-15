@@ -4,7 +4,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import auth, { login } from "../../../firebase";
 import {
+  setEmail,
+  setEmailFocus,
   setErrMsg,
+  setPassFocus,
+  setPwd,
   validateEmail,
   validatePass,
   validatePassLogin,
@@ -12,6 +16,7 @@ import {
 import { BsFillExclamationTriangleFill } from "react-icons/bs";
 import { Button, Input } from "../../components";
 import { useAuthState } from "react-firebase-hooks/auth";
+import { setLoading } from "../../app/features/booksSlice/booksSlice";
 
 const Login = () => {
   const userRef = useRef();
@@ -24,7 +29,6 @@ const Login = () => {
   const email = useSelector((state) => state.user.email);
   const validEmail = useSelector((state) => state.user.validEmail);
   const password = useSelector((state) => state.user.pwd);
-  const validPass = useSelector((state) => state.user.validPwd);
   const validPassLogin = useSelector((state) => state.user.validPwdLogin);
   const errMsg = useSelector((state) => state.user.errMsg);
 
@@ -38,13 +42,14 @@ const Login = () => {
     dispatch(validatePassLogin(password));
   }, [password]);
   useEffect(() => {
-    setErrMsg("");
+    dispatch(setErrMsg(""));
   }, [email, password]);
   useEffect(() => {
     if (isLoading) {
-      return;
+      dispatch(setLoading(true));
     }
     if (user) {
+      dispatch(setLoading(false));
       navigate("/");
     }
   }, [user, navigate]);
@@ -61,8 +66,7 @@ const Login = () => {
       setCookies("uid", uid, { path: "/" });
       setCookies("token", accessToken, { path: "/" });
     } catch (error) {
-      if (!error.response) dispatch(setErrMsg("No server response"));
-      else console.log(error);
+      dispatch(setErrMsg("Email/Password is invalid"));
     }
   };
 
@@ -73,7 +77,7 @@ const Login = () => {
           ref={errRef}
           className={
             errMsg
-              ? "text-base font-commisioner text-center bg-red-500 rounded-lg font-bold px-4 py-2 transition-all duration-300"
+              ? "text-base font-commisioner text-center bg-red-500 rounded-lg font-bold px-4 py-2 transition-all duration-300 flex items-center justify-around mb-6"
               : "fixed -top-[1024px] transition-all duration-300"
           }
           aria-live="assertive"
@@ -84,7 +88,7 @@ const Login = () => {
           </span>
         </p>
         <h1 className="text-4xl font-merriewether mb-7">Login</h1>
-        <form className="flex flex-col gap-7" onSubmit={handleSubmit}>
+        <form className="flex flex-col gap-7 mt-16" onSubmit={handleSubmit}>
           <Input
             type="email"
             id="email"
@@ -95,7 +99,6 @@ const Login = () => {
             onBlur={() => dispatch(setEmailFocus(false))}
             placeholder="Email"
             value={email}
-            validation={true}
           >
             Email
           </Input>
@@ -111,17 +114,12 @@ const Login = () => {
               onBlur={() => dispatch(setPassFocus(false))}
               placeholder="Password"
               value={password}
-              validation={true}
             >
               Password
             </Input>
           </div>
-          <div className="submit z-10">
-            <Button
-              disable={
-                !validEmail || !validPassLogin || !validPass ? true : false
-              }
-            >
+          <div className="submit z-10 self-center">
+            <Button disable={!validEmail || !validPassLogin ? true : false}>
               Login
             </Button>
             <p className="text-center italic text-sm mt-2">

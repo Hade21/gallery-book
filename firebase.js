@@ -40,9 +40,7 @@ export const register = (email, password) => {
       return user;
     })
     .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      return { errorCode, errorMessage };
+      return error;
     });
 };
 export const login = (email, password) => {
@@ -52,9 +50,7 @@ export const login = (email, password) => {
       return user;
     })
     .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      return { errorCode, errorMessage };
+      return error;
     });
 };
 export const logout = () => {
