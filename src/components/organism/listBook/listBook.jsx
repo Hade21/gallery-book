@@ -28,6 +28,8 @@ const ListBook = () => {
           return book.volumeInfo.categories.includes(selectedCategory);
         });
       dispatch(setShowedBooks(filteredBooks));
+    } else {
+      dispatch(setShowedBooks(books));
     }
   }, [searchQuery, selectedCategory]);
   useEffect(() => {
