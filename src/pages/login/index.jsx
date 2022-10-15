@@ -95,6 +95,7 @@ const Login = () => {
             onBlur={() => dispatch(setEmailFocus(false))}
             placeholder="Email"
             value={email}
+            validation={true}
           >
             Email
           </Input>
@@ -110,6 +111,7 @@ const Login = () => {
               onBlur={() => dispatch(setPassFocus(false))}
               placeholder="Password"
               value={password}
+              validation={true}
             >
               Password
             </Input>

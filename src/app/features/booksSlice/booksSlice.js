@@ -4,7 +4,9 @@ const initialState = {
   books: [],
   showedBooks: [],
   categories: [],
+  selectedCategory: "",
   searchQuery: "",
+  loading: false,
 };
 
 export const booksSlice = createSlice({
@@ -20,13 +22,24 @@ export const booksSlice = createSlice({
     setCategories: (state, action) => {
       state.categories = action.payload;
     },
+    setSelectedCategory: (state, action) => {
+      state.selectedCategory = action.payload;
+    },
     setSearchQuery: (state, action) => {
       state.searchQuery = action.payload;
+    },
+    setLoading: (state, action) => {
+      state.loading = action.payload;
     },
   },
 });
 
-export const { setBooks, setShowedBooks, setCategories, setSearchQuery } =
-  booksSlice.actions;
-
-export const selectBooks = (state) => state.books.books;
+export const {
+  setBooks,
+  setShowedBooks,
+  setCategories,
+  setSearchQuery,
+  setLoading,
+  setSelectedCategory,
+} = booksSlice.actions;
+export default booksSlice.reducer;
